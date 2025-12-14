@@ -1,6 +1,6 @@
 //导入组件
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { SidebarProvider,SidebarInset } from "@/components/UI/sidebar";
+import { SidebarProvider,SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import "./App.css";
 
