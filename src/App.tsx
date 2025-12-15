@@ -8,7 +8,7 @@ import "./App.css";
 export const App = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="my-app-theme">
-      <SidebarProvider>
+      <SidebarProvider open={false} >
         <AppSidebar/>
 
         <SidebarInset></SidebarInset>
