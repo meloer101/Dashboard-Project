@@ -9,6 +9,8 @@ import {useSidebar} from "@/components/ui/sidebar";
 import{ LogOutIcon } from 'lucide-react';
 //import {Logo} from "@/components/Logo";
 
+import { APP_SIDEBAR } from "@/constants";  
+
 export const AppSidebar = () => {
   return <div>App Sidebar</div>;
 };
