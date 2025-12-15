@@ -12,8 +12,8 @@ export const Logo = ({ variant = "default" }: LogoProps) => {
       alt="Logo"
       className={
         variant === "icon"
-          ? "h-6 w-auto"
-          : "h-6 w-6"
+          ? "h-6 w-6 "
+          : "h-6 w-auto"
       }
     />
   );
