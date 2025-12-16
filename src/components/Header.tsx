@@ -8,7 +8,10 @@ export const Header = () => {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <header className="">
+    <header className="flex justify-between gap-1 items-center py-3 ps-4 pe-2 border-b lg:hidden ">
+      <div className="ml-auto">
+        <Logo />
+      </div>
       <Logo />
       <Button
         variant="ghost"
