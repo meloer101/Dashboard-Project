@@ -28,6 +28,14 @@ export const App = () => {
                 >
                   <AppBarChart />
                 </DashboardCard>
+
+                <DashboardCard
+                  title="Vendor monitored"
+                  description="keep track of vendors and their security ratings."
+                  buttonText="View full report"
+                >
+                  <AppBarChart />
+                </DashboardCard>
               </div>
             </Page>
           </main>
