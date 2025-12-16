@@ -8,6 +8,7 @@ import { Page } from "@/components/Page";
 import { PageHeader } from "@/components/Page";
 import { DashboardCard } from "@/components/DashboardCard";
 import { AppBarChart } from "@/components/AppBarChart";
+import { AppRadialChart } from "./components/AppRadialChart";
 
 export const App = () => {
   return (
@@ -31,10 +32,10 @@ export const App = () => {
 
                 <DashboardCard
                   title="Vendor monitored"
-                  description="keep track of vendors and their security ratings."
-                  buttonText="View full report"
+                  description="You're using 80% of available spots."
+                  buttonText="Upgrade plan"
                 >
-                  <AppBarChart />
+                  <AppRadialChart />
                 </DashboardCard>
               </div>
             </Page>
