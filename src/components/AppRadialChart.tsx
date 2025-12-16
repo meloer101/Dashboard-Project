@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
 
-import { VENDOR_BREAKDOWN } from "@/constants";
+import { VENDOR_BREAKDOWN, VENDOR_MONITORED } from "@/constants";
 
 const chartConfig = {
   monitored: {
@@ -26,13 +26,12 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export const AppRadialChart = () => {
-const totalLimits = VENDOR_BREAKDOWN[0].monitored +
-VENDOR_BREAKDOWN[0].limit;
+  const totalLimits = VENDOR_MONITORED[0].monitored + VENDOR_MONITORED[0].limit;
 
   return (
     <ChartContainer config={chartConfig}>
       <RadialBarChart
-        data={VENDOR_BREAKDOWN}
+        data={VENDOR_MONITORED}
         innerRadius={90}
         outerRadius={140}
         cy={104}
@@ -44,7 +43,7 @@ VENDOR_BREAKDOWN[0].limit;
           stackId="a"
           fill="var(--color-limit)"
           cornerRadius={20}
-          className='strokeptransparent stroke-2'
+          className="strokeptransparent stroke-2"
         />
         <RadialBar
           dataKey="monitored"
@@ -55,8 +54,29 @@ VENDOR_BREAKDOWN[0].limit;
         />
 
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-          <Label  
-           />
+          <Label
+            content={({ viewBox }) => {
+              if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                return (
+                  <text
+                    x={viewBox.cx}
+                    y={viewBox.cy}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="fill-foreground text-3xl font-bold sm:text-4xl"
+                  >
+                    <tspan
+                      x={viewBox.cx}
+                      y={(viewBox.cy || 0) - 16}
+                      className="fill-foreground text-2xl font-bold"
+                    >
+                      {totalLimits.toLocaleString()}
+                    </tspan>
+                  </text>
+                );
+              }
+            }}
+          />
         </PolarRadiusAxis>
       </RadialBarChart>
     </ChartContainer>
