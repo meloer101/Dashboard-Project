@@ -17,7 +17,7 @@ import { VENDOR_BREAKDOWN, VENDOR_MONITORED } from "@/constants";
 const chartConfig = {
   monitored: {
     label: "Total monitored",
-    color: "var(--chart-1)",
+    color: "var(--chart-3)",
   },
   limit: {
     label: "Available limit",
@@ -29,7 +29,7 @@ export const AppRadialChart = () => {
   const totalLimits = VENDOR_MONITORED[0].monitored + VENDOR_MONITORED[0].limit;
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} className="w-50 h-27.5">
       <RadialBarChart
         data={VENDOR_MONITORED}
         innerRadius={90}
@@ -78,6 +78,8 @@ export const AppRadialChart = () => {
             }}
           />
         </PolarRadiusAxis>
+
+        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
       </RadialBarChart>
     </ChartContainer>
   );
