@@ -47,7 +47,7 @@ export const DataTable = <TData, TValue = any>({
   const [filter, setFilter] = useState<Filter>("view-all");
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [rowSlection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -55,9 +55,14 @@ export const DataTable = <TData, TValue = any>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnFiltersChange: setColumnFilters,
-    getPaginationRowModel:getPaginationRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel:getSortedRowModel(),
+    onSortingChange:setSorting,
+    onRowSelectionChange:setRowSelection,
     state: {
-      columnFilters,
+        columnFilters,
+        sorting,
+        rowSelection
     },
   });
 
@@ -146,10 +151,33 @@ export const DataTable = <TData, TValue = any>({
         </TableBody>
       </Table>
 
-      <div className="">
-        <p className='text-sm font-semibold text-muted-foreground max-md:mx-auto md:me-auto'>
-            Page {table.getState().pagination.pageIndex + 1} of{''}{table.getPageCount()}
+      <div className="flex gap-3 justify-between items-center border-t  py-3 px-6">
+        <Button
+          variant="outline"
+          className="max-md:-order-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ChevronLeftIcon className="md:hidden" />
+          <span className="max-md:hidden">Previous</span>
+        </Button>
+
+        <p className="text-sm font-semibold text-muted-foreground max-md:mx-auto md:me-auto">
+          Page {table.getState().pagination.pageIndex + 1} of{""}
+          {table.getPageCount()}
         </p>
+
+        
+
+        <Button
+          variant="outline"
+          className="max-md:-order-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          <ChevronRightIcon className="md:hidden" />
+          <span className="max-md:hidden">Next</span>
+        </Button>
       </div>
     </div>
   );
