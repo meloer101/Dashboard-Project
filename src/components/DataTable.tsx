@@ -1,8 +1,11 @@
 import {
-  
   flexRender,
   getCoreRowModel,
   useReactTable,
+  type ColumnDef,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -14,37 +17,108 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface Props<TData, TValue> {
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import { Kbd } from "@/components/ui/kbd";
+
+import { useState } from "react";
+
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ListFilterIcon,
+  SearchIcon,
+} from "lucide-react";
+
+import type { ColumnFiltersState, SortingState } from "@tanstack/react-table";
+
+interface DataTableProps<TData, TValue = any> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const DataTable = <DataTable, Value>({
+type Filter = "view-all" | "monitored" | "unmonitored";
+
+export const DataTable = <TData, TValue = any>({
   columns,
   data,
-}: Props<DataTable, Value>) => {
+}: DataTableProps<TData, TValue>) => {
+  const [filter, setFilter] = useState<Filter>("view-all");
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [rowSlection, setRowSelection] = useState({});
 
-    const table = useReactTable({
+  const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    
-  return <Table>
-        <TableHeader>
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getPaginationRowModel:getPaginationRowModel(),
+    state: {
+      columnFilters,
+    },
+  });
+
+  return (
+    <div className="max-md:-mx-4 max-lg:-mx-8">
+      <div className="flex gap-4 p-6 max-lg:flex-col lg:justify-between lg:py-3">
+        <ToggleGroup
+          type="single"
+          variant="outline"
+          value={filter}
+          onValueChange={(value: Filter) => setFilter(value)}
+        >
+          <ToggleGroupItem value="view-all">View all</ToggleGroupItem>
+          <ToggleGroupItem value="monitored">monitored</ToggleGroupItem>
+          <ToggleGroupItem value="unmonitored">unmonitored</ToggleGroupItem>
+        </ToggleGroup>
+
+        <div className="flex gap-3">
+          <InputGroup>
+            <InputGroupInput
+              placeholder="Search"
+              value={
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn("name")
+                  ?.setFilterValue(event.currentTarget.value)
+              }
+            />
+
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+
+            <InputGroupAddon align="inline-end">
+              <Kbd>⌘k</Kbd>
+            </InputGroupAddon>
+          </InputGroup>
+
+          <Button variant="outline">
+            <ListFilterIcon />
+            <span className="max-lg:hidden">Filters</span>
+          </Button>
+        </div>
+      </div>
+
+      <Table>
+        <TableHeader className="bg-secondary/40 border-t">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id} className="px-4">
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -56,7 +130,7 @@ export const DataTable = <DataTable, Value>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="p-4">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -70,5 +144,13 @@ export const DataTable = <DataTable, Value>({
             </TableRow>
           )}
         </TableBody>
-      </Table>;
+      </Table>
+
+      <div className="">
+        <p className='text-sm font-semibold text-muted-foreground max-md:mx-auto md:me-auto'>
+            Page {table.getState().pagination.pageIndex + 1} of{''}{table.getPageCount()}
+        </p>
+      </div>
+    </div>
+  );
 };
