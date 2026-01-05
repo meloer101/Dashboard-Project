@@ -54,9 +54,7 @@ npm run preview
 
 欢迎提交 issue 或 PR。请在变更中尽量保持小而聚焦的提交，包含重现步骤与预期行为。
 
----
 
-如需我把 README 按你的偏好进一步展开（更多示例、截图、部署流程或 API 文档），告诉我需要补充的内容即可。
 
 # React + TypeScript + Vite
 
