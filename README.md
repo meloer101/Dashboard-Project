@@ -1,5 +1,7 @@
 # DashBoard-APP
 
+<img src='/Users/m/Desktop/DashBoard-APP/src/assets/showbox.png'>
+
 简洁、可扩展的仪表盘模版，基于 React + TypeScript + Vite 构建，集成 TailwindCSS、Radix UI、图表与数据表组件，适合作为后台管理或数据监控面板的起点。
 
 ## 快速概览
